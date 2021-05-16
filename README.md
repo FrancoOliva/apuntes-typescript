@@ -437,3 +437,103 @@ console.log("Estoy implementando y sobreescribiendo el metodo1");
 }
 
 }
+
+# Interfaces en TypeScript
+
+Es una pequeña plantilla donde podemos definir propiedades y funciones pero, a la hora de implementarlas, necesitamos que sean exactamente iguales a como nosotros las definimos.
+
+interface Persona {
+
+// podemos tener atributos y métodos
+
+nombre:string
+
+}
+
+function caminar(persona:Persona):void{
+
+console.log('La persona '+ persona.nombre + ' esta caminando.');
+
+}
+
+let n_persona:Persona = {nombre: 'Franco'};
+
+caminar(n_persona);
+
+##### Parámetros opcionales en una interface
+
+interface Persona {
+
+altura:number;
+
+peso:number;
+
+nombre?:string; // ? hace que un parámetro o propiedad sea opcional
+
+}
+
+function mostrarMediaDePedo(persona:Persona):string{
+
+// es un ejemplo
+
+let mediapeso:number = persona.altura / persona.peso;
+
+if(persona.nombre){
+
+return `${persona.nombre} tiene una media de ${mediapeso}`
+
+} else {
+
+return `Tiene una media de ${mediapeso}`
+
+}
+
+}
+
+let persona:Persona = {altura: 2, peso: 120, nombre: 'Franco'} // nombre es opcional, puede ir o no
+
+console.log(mostrarMediaDePedo(persona));
+
+##### Parámetros de solo lectura
+
+En este caso tenemos que utilizar **readonly** en las propiedades o funciones de la interface que vayamos a crear. Esto permite que no se puedan modificar las propiedades después de que se instancia una interface.
+
+interface Persona {
+
+readonly nombre:string;
+
+readonly apellido:string;
+
+}
+
+let ejemplo:Persona = {nombre: 'Franco', apellido: 'Oliva'};
+
+console.log(ejemplo);
+
+// ejemplo.nombre = 'David';  -> esto es marcado como error
+
+// console.log(ejemplo);
+
+Interfaces para funciones
+
+Ya no definimos las propiedades, le decimos qué parámetros va a recibir, de qué tipo y qué va a devolver la función. Es solo una plantilla, no va a realizar ningún cuerpo de función, ninguna acción digamos. ({cuerpo})
+
+interface General {
+
+(nombre:string, apellido:string, edad:number):void
+
+}
+
+let funcionGeneralUno:General =
+
+function(nombre:string, apellido:string, edad:number):void{
+
+console.log(`${nombre} con el apellido ${apellido} y la edad ${edad}`)
+
+}
+
+funcionGeneralUno('Franco','Oliva',29);
+
+
+
+
