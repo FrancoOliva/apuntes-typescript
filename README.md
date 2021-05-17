@@ -514,7 +514,7 @@ console.log(ejemplo);
 
 // console.log(ejemplo);
 
-Interfaces para funciones
+##### Interfaces para funciones
 
 Ya no definimos las propiedades, le decimos qué parámetros va a recibir, de qué tipo y qué va a devolver la función. Es solo una plantilla, no va a realizar ningún cuerpo de función, ninguna acción digamos. ({cuerpo})
 
@@ -534,6 +534,124 @@ console.log(`${nombre} con el apellido ${apellido} y la edad ${edad}`)
 
 funcionGeneralUno('Franco','Oliva',29);
 
+# Tipo ANY su problema y solución
+
+Qué son los datos genéricos?
+
+TypeScript esta diseñado para ser un lenguaje de tipado.
+En el echo de poder tener un tipo de dato "any" es básicamente
+contraproducente en el lenguaje y genera ciertos errores.
+
+Para ello nacen los datos o el tipado genérico.
+
+##### Funciones genéricas
+
+function mostrar(dato:string):string{
+    return dato;
+}
+
+console.log(mostrar('Franco'));
 
 
+// función genérica  "T" -> por convención
+function mostrargenerica<T>(dato:T):T{
+    return dato;
+}
+
+console.log(mostrargenerica('Oliva'));
+
+##### Clases genéricas
+
+class Persona<T>{
+    nombre:string
+    edad:T
+
+    Mostrar:(dato:T) => T
+}
+
+// Una clase ya es de un tipo, en este caso lo que hacemos al indicar
+// que es de tipo genérico, es que puede contener propiedades o funciones T
+
+##### Interfaces genéricas
+
+Las interfaces a diferencia de las clases, deben tener UN TIPO DE DATO por defecto.
+
+interface Persona<T> {
+    nombre: T
+
+}
+
+// en este caso decimos que Persona que es una interface de tipo genérico
+// va a ser de tipo string o number o lo que sea que necesitemos en ese momento
+
+let obj:Persona<string> = { nombre: 'Franco'}
+let obj2:Persona<number> = {nombre: 105}
+
+# Módulos en TypeScript
+
+Módulos, qué son y para qué sirven?
+
+Los módulos son pequeñas porciones de código, reutilizables ya no solo dentro del mismo archivo, si no para poder usar en archivos exteriores.
+
+Cualquier variable, Clase o Interfaz se puede exportar.
+La exportación se realiza para poder utilizar porciones de código de un archivo en otros.
+Así podemos trabajar por módulos.
+
+// importamos la variable creada en el modulo a
+
+import {nombre} from './moduloa'
+
+// ./ cuando el archivo se va a encontrar en el mismo directorio
+
+// En el caso que quisieramos salirnos de nuestro directorio sería ../
+
+// TENEMOS QUE COMPILAR TANTO EL MODULOA Y EL MODULOB PARA PODER
+// PROBAR SU FUNCIONAMIENTO
+
+console.log(nombre);
+
+##### Exportaciones de diferentes tipos de expresiones
+
+Ej: moduloa.ts
+
+export class Persona {
+    nombre:string
+}
+
+export interface Humano {
+    nombre:string
+}
+
+export const mostrar = ():void => {console.log('Soy una arrow function')}
+
+Ej: modulob.ts
+
+import {nombre, Persona, Humano, mostrar} from './moduloa'
+
+##### Exportación por defecto
+
+Ej: moduloa.ts
+
+export class Persona {
+    nombre:string
+    edad:number
+    altura:number
+
+    constructor(nombre,edad,altura){
+        this.nombre = nombre;
+        this.edad = edad;
+        this.altura = altura;
+    }
+
+    mostrar():void{
+        console.log(this.nombre);
+    }
+}
+
+// de esta manera le decimos a typescript que necesitamos exportar
+// todo este objeto por defecto y para importarlo es un poco diferente también
+export default Persona
+
+Ej: modulob.ts
+import Persona from './moduloa'
 
